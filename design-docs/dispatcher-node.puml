@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+frame "Dispatcher" {
+
+    component "Dispatch engine"
+    file "Relational graph"
+
+    [Dispatch engine] -> [Relational graph]
+}
+
+@enduml

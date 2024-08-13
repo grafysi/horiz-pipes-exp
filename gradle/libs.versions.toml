@@ -1,0 +1,20 @@
+[plugins]
+
+
+[versions]
+debezium = "3.0.0.Alpha1"
+log4j2 = "2.23.1"
+commons-csv = "1.11.0"
+slf4j-api = "1.7.36"
+postgresql = "42.7.3"
+commons-lang3 = "3.16.0"
+
+[libraries]
+debezium-api = {module = "io.debezium:debezium-api", version.ref = "debezium"}
+debezium-embedded = {module = "io.debezium:debezium-embedded", version.ref = "debezium"}
+debezium-connector-postgres = {module = "io.debezium:debezium-connector-postgres", version.ref = "debezium"}
+log4j-slf4j-impl = {module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j2"}
+commons-csv = {module = "org.apache.commons:commons-csv", version.ref = "commons-csv"}
+slf4j-api = {module = "org.slf4j:slf4j-api", version.ref = "slf4j-api"}
+postgresql = {module = "org.postgresql:postgresql", version.ref = "postgresql"}
+commons-lang3 = {module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3"}

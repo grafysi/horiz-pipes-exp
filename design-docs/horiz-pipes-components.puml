@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+frame "HorizPipes control plane" {
+    component "PipesManager"
+    database "CTDS"
+    [PipesManager]-[CTDS]
+}
+
+frame "HorizPipes data plane" {
+    frame "Routing Node" {
+        database "Routing table"
+        component "Routing engine"
+        [Routing engine] -> [Routing table] : read
+    }
+
+    frame "Carrier Node" {
+
+        component "Receiver"
+        component "Committer"
+
+        frame "PipeChain Thread" {
+            component "DataSource 1"
+            component "Processor 1"
+            component "DataSource n"
+            component "Processor n"
+            component "Dispatcher"
+
+            [DataSource 1] --> [Processor 1]
+            [Processor 1] -r-> [DataSource n]: ...
+            [DataSource n] -r-> [Processor n]
+            [Processor n] -r-> [Dispatcher]
+
+            interface "Committable"
+            [Processor 1] -u-> [Committable]
+            [Processor n] -u-> [Committable]
+            [Dispatcher] -u-> [Committable]
+
+            interface "FlexConcurrency"
+            [Processor 1] --> [FlexConcurrency]
+            [Processor n] --> [FlexConcurrency]
+            [Dispatcher] -d-> [FlexConcurrency]
+
+            interface "FlexMetrics"
+            [Processor 1] --> [FlexMetrics]
+            [Processor n] --> [FlexMetrics]
+
+            interface "FlinkAdapter"
+            [Processor 1] --> "FlinkAdapter"
+        }
+
+        [Receiver] --> [DataSource 1]
+        [Committable] -u-> [Committer]
+    }
+
+    [Routing engine]-->[Receiver] : 1..n
+}
+
+[PipesManager] --> [HorizPipes data plane]
+
+@enduml
